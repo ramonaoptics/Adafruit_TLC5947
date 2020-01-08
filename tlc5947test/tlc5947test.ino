@@ -55,15 +55,15 @@ void setup() {
 }
 
 void loop() {
-  // latch_cycle(latch0);
+  latch_cycle(latch0);
   latch_cycle(latch1);
-  // latch_cycle(latch2);
-  // latch_cycle(latch3);
-  // latch_cycle(latch4);
-  // latch_cycle(latch5);
-  // latch_cycle(latch6);
-  // latch_cycle(latch7);
-  // latch_cycle(latch8);
+  latch_cycle(latch2);
+  latch_cycle(latch3);
+  latch_cycle(latch4);
+  latch_cycle(latch5);
+  latch_cycle(latch6);
+  latch_cycle(latch7);
+  latch_cycle(latch8);
 
 //  cycle(0, 200);
 //  delay(400);
@@ -77,10 +77,9 @@ void loop() {
 }
 
 void latch_cycle(uint8_t latch_var){
-  cycle(100, 100, latch_var); //4096
-  delay(400);
-  cycle(0, 100, latch_var);
-  delay(400);
+  // 4095 is max intensity
+  cycle(10, 1, latch_var);
+  cycle(0, 1, latch_var);
 }
 
 void cycle(uint16_t b, uint16_t wait, uint8_t latch){
