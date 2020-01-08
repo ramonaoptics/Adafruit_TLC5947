@@ -19,7 +19,7 @@
 #include "Jaehee_TLC5947.h"
 
 // How many tlc'ss do you have chained?
-#define NUM_TLC5947 2
+#define NUM_TLC5947 12
 #define data   11
 #define clock  13
 #define latch0 14
@@ -32,7 +32,7 @@
 #define latch7 21
 #define latch8 22
 // set to -1 to not use the enable pin (its optional)
-#define oe  6
+#define blank  6
 
 Adafruit_TLC5947 tlc = Adafruit_TLC5947(NUM_TLC5947,
   (unsigned char)clock,
@@ -48,14 +48,10 @@ Adafruit_TLC5947 tlc = Adafruit_TLC5947(NUM_TLC5947,
   (unsigned char)latch8);
 
 void setup() {
-  Serial.begin(115200);
-
-  Serial.println("TLC5974 test");
+  pinMode(blank, OUTPUT);
+  digitalWrite(blank, HIGH);
   tlc.begin();
-  if (oe >= 0) {
-    pinMode(oe, OUTPUT);
-    digitalWrite(oe, LOW);
-  }
+  digitalWrite(blank, LOW);
 }
 
 void loop() {

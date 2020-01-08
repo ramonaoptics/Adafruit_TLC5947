@@ -160,5 +160,17 @@ boolean Adafruit_TLC5947::begin() {
   pinMode(_lat8, OUTPUT);
   digitalWrite(_lat8, LOW);
 
+  for(int16_t channel = NUM_LEDS_PER_DRIVER * numdrivers - 2; channel >= 0; channel=channel-2){
+    setPWM(channel, 0);
+  }
+  write((unsigned char) _lat0);
+  write((unsigned char) _lat1);
+  write((unsigned char) _lat2);
+  write((unsigned char) _lat3);
+  write((unsigned char) _lat4);
+  write((unsigned char) _lat5);
+  write((unsigned char) _lat6);
+  write((unsigned char) _lat7);
+  write((unsigned char) _lat8);
   return true;
 }
