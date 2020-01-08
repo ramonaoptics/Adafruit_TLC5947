@@ -61,7 +61,9 @@ void setup() {
 void loop() {
   // cycle(100, 10, latch0); //4096
   // delay(400);
-  cycle(10, 500, latch1); //4096
+  cycle(100, 100, latch1); //4096
+  delay(400);
+  cycle(0, 100, latch1);
   delay(400);
   // cycle(100, 10, latch2); //4096
   // delay(400);
@@ -90,7 +92,7 @@ void loop() {
 }
 
 void cycle(uint16_t b, uint16_t wait, uint8_t latch){
-  for(uint16_t i = 0; i < 9 * NUM_TLC5947; i++){
+  for(uint16_t i = 0; i < NUM_LEDS_PER_DRIVER * NUM_TLC5947; i++){
     tlc.setPWM(i, b);
     tlc.write((unsigned char) latch);
     delay(wait);
