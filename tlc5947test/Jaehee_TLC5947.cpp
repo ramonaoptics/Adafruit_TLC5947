@@ -66,12 +66,12 @@ Adafruit_TLC5947::Adafruit_TLC5947(uint16_t n_tlc5947, uint8_t c, uint8_t d,
 /*!
  *    @brief  Writes PWM data to the all connected TLC5947 boards
  */
- void Adafruit_TLC5947::write(uint8_t _lat) {
+ void Adafruit_TLC5947::write(uint8_t lat) {
 
 
    uint8_t buffer[3];
    uint16_t pwm[2];
-   digitalWrite(_lat, LOW);
+   digitalWrite(lat, LOW);
    // 24 channels per TLC5974
    SPI.beginTransaction(SPISettings());
    for (int16_t channel = NUM_LEDS_PER_DRIVER * numdrivers - 2; channel >= 0; channel=channel-2) {
@@ -87,8 +87,8 @@ Adafruit_TLC5947::Adafruit_TLC5947(uint16_t n_tlc5947, uint8_t c, uint8_t d,
    }
    SPI.endTransaction();
 
-   digitalWrite(_lat, HIGH);
-   digitalWrite(_lat, LOW);
+   digitalWrite(lat, HIGH);
+   digitalWrite(lat, LOW);
  }
 
 
