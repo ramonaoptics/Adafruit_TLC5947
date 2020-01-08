@@ -58,7 +58,7 @@ Adafruit_TLC5947::Adafruit_TLC5947(uint16_t n_tlc5947, uint8_t c, uint8_t d,
   // memory defined in unsigned 16 bit integer. we need 2 bytes (8*2) to store
   // 12 bits.
   pwmbuffer = (uint16_t *)malloc(2 * NUM_LEDS_PER_DRIVER * n_tlc5947);
-  memset(pwmbuffer, 0, 2 * NUM_LEDS_PER_DRIVER * n_tlc5947);
+  memset(pwmbuffer, 0, 2 *  NUM_LEDS_PER_DRIVER * n_tlc5947);
 
 }
 
@@ -66,33 +66,31 @@ Adafruit_TLC5947::Adafruit_TLC5947(uint16_t n_tlc5947, uint8_t c, uint8_t d,
 /*!
  *    @brief  Writes PWM data to the all connected TLC5947 boards
  */
-void Adafruit_TLC5947::write(uint8_t _lat) {
+ void Adafruit_TLC5947::write(uint8_t _lat) {
 
-  uint16_t pwm;
-  uint16_t mask;
-  digitalWrite(_lat, LOW);
-  // 24 channels per TLC5974
-  for (int16_t channel = NUM_LEDS_PER_DRIVER * numdrivers - 1; channel >= 0; channel=channel-1) {
-    pwm = pwmbuffer[channel];
-    // 12 bits per channel, send MSB first
-    SPI.beginTransaction(SPISettings(14000000, MSBFIRST, SPI_MODE0));
-    for (int8_t bit = BITS_PER_CHANNEL - 1; bit >= 0; bit--) {
-      mask = 1<< bit;
 
-      SPI.transfer((char)(_dat[chip][channel][bit] >> 8)); // Output MSB first
-      SPI.transfer((char)(_dat[chip][channel][bit] & 0xFF)); // Followed by LSB
-      SPI.transfer(buffer, size)
-    }
-    SPI.endTransaction();
-  }
+   uint8_t buffer[3];
+   uint16_t pwm[2];
+   digitalWrite(_lat, LOW);
+   // 24 channels per TLC5974
+   SPI.beginTransaction(SPISettings());
+   for (int16_t channel = NUM_LEDS_PER_DRIVER * numdrivers - 2; channel >= 0; channel=channel-2) {
+     pwm[0] = pwmbuffer[channel];
+     pwm[1] = pwmbuffer[channel + 1];
+     // 12 bits per channel, send MSB first
+     buffer[0] = (pwm[1] >> 4) & 0x00FF;
+     buffer[1] = ((pwm[0] & 0x0F00) >> 8) + ((pwm[1] & 0x000F) << 4);
+     buffer[2] = (pwm[0] >> 0 ) & 0x00FF;
+     SPI.transfer(buffer[0]);
+     SPI.transfer(buffer[1]);
+     SPI.transfer(buffer[2]);
+   }
+   SPI.endTransaction();
 
-  // set clock and data to known values just because
-  digitalWrite(_clk, LOW);
-  digitalWrite(_dat, LOW);
+   digitalWrite(_lat, HIGH);
+   digitalWrite(_lat, LOW);
+ }
 
-  digitalWrite(_lat, HIGH);
-  digitalWrite(_lat, LOW);
-}
 
 /*!
  *    @brief  Set the PWM channel / value
@@ -109,6 +107,8 @@ void Adafruit_TLC5947::setPWM(uint16_t chan, uint16_t pwm) {
 
   pwmbuffer[chan] = pwm;
 }
+
+
 
 /*!
  *    @brief  Set LED
@@ -140,13 +140,25 @@ void Adafruit_TLC5947::setLED(uint16_t lednum, uint16_t r, uint16_t g,
 boolean Adafruit_TLC5947::begin() {
   if (!pwmbuffer)
     return false;
+  SPI.begin();
+  pinMode(_lat0, OUTPUT);
+  digitalWrite(_lat0, LOW);
+  pinMode(_lat1, OUTPUT);
+  digitalWrite(_lat1, LOW);
+  pinMode(_lat2, OUTPUT);
+  digitalWrite(_lat2, LOW);
+  pinMode(_lat3, OUTPUT);
+  digitalWrite(_lat3, LOW);
+  pinMode(_lat4, OUTPUT);
+  digitalWrite(_lat4, LOW);
+  pinMode(_lat5, OUTPUT);
+  digitalWrite(_lat5, LOW);
+  pinMode(_lat6, OUTPUT);
+  digitalWrite(_lat6, LOW);
+  pinMode(_lat7, OUTPUT);
+  digitalWrite(_lat7, LOW);
+  pinMode(_lat8, OUTPUT);
+  digitalWrite(_lat8, LOW);
 
-  // ensure the desired output on clk data and latch before enabling output pins
-  digitalWrite(_clk, LOW);
-  digitalWrite(_dat, LOW);
-  digitalWrite(_lat, LOW);
-  pinMode(_clk, OUTPUT);
-  pinMode(_dat, OUTPUT);
-  pinMode(_lat, OUTPUT);
   return true;
 }

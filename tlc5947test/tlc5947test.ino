@@ -19,11 +19,11 @@
 #include "Jaehee_TLC5947.h"
 
 // How many tlc'ss do you have chained?
-#define NUM_TLC5947 12
+#define NUM_TLC5947 2
 #define data   11
-#define clock   13
-#define latch0  14
-#define latch1  15
+#define clock  13
+#define latch0 14
+#define latch1 15
 #define latch2 16
 #define latch3 17
 #define latch4 18
@@ -31,9 +31,21 @@
 #define latch6 20
 #define latch7 21
 #define latch8 22
-#define oe  6  // set to -1 to not use the enable pin (its optional)
+// set to -1 to not use the enable pin (its optional)
+#define oe  6
 
-Adafruit_TLC5947 tlc = Adafruit_TLC5947(NUM_TLC5947, (unsigned char)clock, (unsigned char)data, (unsigned char)latch0, (unsigned char)latch1, (unsigned char)latch2, (unsigned char)latch3, (unsigned char)latch4, (unsigned char)latch5, (unsigned char)latch6, (unsigned char)latch7, (unsigned char)latch8);
+Adafruit_TLC5947 tlc = Adafruit_TLC5947(NUM_TLC5947,
+  (unsigned char)clock,
+  (unsigned char)data,
+  (unsigned char)latch0,
+  (unsigned char)latch1,
+  (unsigned char)latch2,
+  (unsigned char)latch3,
+  (unsigned char)latch4,
+  (unsigned char)latch5,
+  (unsigned char)latch6,
+  (unsigned char)latch7,
+  (unsigned char)latch8);
 
 void setup() {
   Serial.begin(115200);
@@ -47,24 +59,24 @@ void setup() {
 }
 
 void loop() {
-  cycle(100, 10, latch0); //4096
+  // cycle(100, 10, latch0); //4096
+  // delay(400);
+  cycle(10, 500, latch1); //4096
   delay(400);
-//  cycle(100, 10, latch1); //4096
-//  delay(400);
-//  cycle(100, 10, latch2); //4096
-//  delay(400);
-//  cycle(100, 10, latch3); //4096
-//  delay(400);
-//  cycle(100, 10, latch4); //4096
-//  delay(400);
-//  cycle(100, 10, latch5); //4096
-//  delay(400);
-//  cycle(100, 10, latch6); //4096
-//  delay(400);
-//  cycle(100, 10, latch7); //4096
-//  delay(400);
-//  cycle(100, 10, latch8); //4096
-//  delay(400);
+  // cycle(100, 10, latch2); //4096
+  // delay(400);
+  // cycle(100, 10, latch3); //4096
+  // delay(400);
+  // cycle(100, 10, latch4); //4096
+  // delay(400);
+  // cycle(100, 10, latch5); //4096
+  // delay(400);
+  // cycle(100, 10, latch6); //4096
+  // delay(400);
+  // cycle(100, 10, latch7); //4096
+  // delay(400);
+  // cycle(100, 10, latch8); //4096
+  // delay(400);
 
 //  cycle(0, 200);
 //  delay(400);
