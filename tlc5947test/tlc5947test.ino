@@ -50,6 +50,8 @@ Adafruit_TLC5947 tlc = Adafruit_TLC5947(NUM_TLC5947,
 
 void wait_until_power_plugged_in(){
   Serial.begin(115200);
+  pinMode(blank, OUTPUT);
+  digitalWrite(blank, HIGH);
 
   while(true){
     // vref value from https://forum.pjrc.com/threads/54662-Teensy-3-2-ADC-Input-Range
@@ -72,9 +74,10 @@ void wait_until_power_plugged_in(){
      delay(500);
   }
 }
+
 void setup() {
-  pinMode(blank, OUTPUT);
-  digitalWrite(blank, HIGH);
+  // pinMode(blank, OUTPUT); //this is inside wait_until_power_plugged_in
+  // digitalWrite(blank, HIGH); //this is inside wait_until_power_plugged_in
   // wait until power plugged in
   wait_until_power_plugged_in();
   tlc.begin();
@@ -105,6 +108,9 @@ void loop() {
 
 void latch_cycle(uint8_t latch_var){
   // 4095 is max intensity
+  wait_until_power_plugged_in();
+  tlc.begin();
+  digitalWrite(blank, LOW);
   cycle(10, 1, latch_var);
   cycle(0, 1, latch_var);
 }
